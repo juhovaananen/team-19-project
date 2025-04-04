@@ -21,7 +21,6 @@ if (workminutes < 0) {
 if (workhours > 8) {
     savedHours += workhours - 8 + workminutes / 60;
     localStorage.setItem('bankHours', savedHours.toFixed(2)) //pyöristetään kaksi desimaalia
-    workhours = 8;
 }
 
 document.getElementById('hours').textContent = workhours + " Hours and " + workminutes + " minutes "; //syöttää tuloksen indexiin.
