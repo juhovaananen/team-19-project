@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <script src="functions.js"> </script>
+<link href="style.css" rel="stylesheet">
 <html>
     <head>
         <title>Example</title>
@@ -12,12 +13,18 @@
             <label for="endingtime">Endingtime:</label>
             <input type="time" id="endingtime"> <br>
             <button onclick="calculateHours()">Calculate hours</button> <br>
+            <button onclick="addManually()">Add hours manually</button>
 
             <h2>Hours:</h2>
             <p id="hours"></p>
 
             <h2> Hours saved in bank:</h2>
             <p id="bankHours"></p>
+
+            <button onclick="useBankHours()">Use hours from bank</button>
+            <button onclick="showSavedHours()">Show hours saved in bank</button>
+
+
         </div>
     </body>
 </html>

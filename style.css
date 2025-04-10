@@ -1,0 +1,28 @@
+body {
+    font-family: sans-serif;
+    padding: 20px;
+    background: #eee; 
+}
+
+.container {
+    background: #fff; 
+    padding: 15px;
+    max-width: 400px;
+    margin: auto; 
+}
+
+label, input, button, h2, p {
+    margin: 10px 0;
+    display: block; }
+
+input, button {
+    width: 100%;
+    padding: 8px; 
+}
+
+button {
+    background: #007bff;
+    color: #fff; 
+    border: none;
+    cursor: pointer; 
+}

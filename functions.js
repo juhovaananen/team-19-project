@@ -28,3 +28,42 @@ document.getElementById('hours').textContent = workhours + " Hours and " + workm
 updateLocalStorageValues();
 
 }
+
+// Käytä pankki tunteja:
+function useBankHours() {
+    var usedHours = parseFloat(prompt("How many hours you want to use from bank?"));
+
+    if (!isNaN(usedHours) && usedHours <= savedHours) {
+        savedHours -= usedHours;
+        localStorage.setItem('bankHours', savedHours.toFixed(2)); // Pyöristetään kaksi desimaalia
+        alert("You used " + usedHours + " hours from bank.");
+    } else {
+        alert("Incorrect number of hours or you don't have enough hours in the bank.");
+    }
+
+    updateLocalStorageValues();
+}
+
+// Näytä pankki tunnit:
+function showSavedHours() {
+    alert("Hours saved in bank: " + savedHours.toFixed(2));
+}
+
+// Lisää manuaalisesti tunteja
+function addManually() {
+    var hoursToAdd = parseInt(prompt("How many hours you want to add manually?"));
+
+    if (!isNaN(hoursToAdd) && hoursToAdd > 0) {
+    savedHours += hoursToAdd;
+    localStorage.setItem('bankHours', savedHours.toFixed(2)); // Pyöristetään kaksi desimaalia
+    alert("You added " + hoursToAdd + " hours to bank.");
+    }
+
+
+    updateLocalStorageValues();
+}
+
+// Päivitä localstoragen arvot
+function updateLocalStorageValues() {
+    document.getElementById('bankHours').textContent = savedHours.toFixed(2);
+}
