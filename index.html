@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<script src="functions.js"> </script>
+<html lang="en">
 <link href="style.css" rel="stylesheet">
-<html>
+<meta charset="UTF-8">
     <head>
         <title>Example</title>
     </head>
@@ -26,5 +26,27 @@
 
 
         </div>
+        <div class="calendar">
+            <div class="calendar-header">
+              <button id="prev-month">‹</button>
+              <div id="month-year"></div>
+              <button id="next-month">›</button>
+            </div>
+            <div class="calendar-body">
+              <div class="calendar-weekdays">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+              </div>
+              <div class="calendar-dates">
+                <!-- Dates will be populated here -->
+              </div>
+            </div>
+          </div>
+          <script src="functions.js"> </script>
     </body>
 </html>
