@@ -95,7 +95,7 @@ function renderCalendar(month, year) {
   // Create blank spaces for alignment
   for (let i = 0; i < firstDay; i++) {
     const blank = document.createElement('div');
-    blank.classList.add('blank'); // Optional: for styling empty spots
+    blank.classList.add('blank'); //for styling empty spots
     calendarDates.appendChild(blank);
   }
 
@@ -104,7 +104,7 @@ function renderCalendar(month, year) {
     const day = document.createElement('div');
     day.textContent = i;
 
-    // Highlight today
+    // Korostetaan tämä päivä
     if (
       i === today.getDate() &&
       month === today.getMonth() &&
