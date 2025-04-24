@@ -1,138 +1,100 @@
+/* Yleisasetukset */
 body {
-    font-family: sans-serif;
-    padding: 20px;
-    background: #f5f5f5;
-    color: #333;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
+/* Kontin keskitys ja tyyli */
 .container {
-    background: #fff;
-    padding: 20px;
-    max-width: 450px;
-    margin: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-label, input, button, h2, p {
-    margin: 12px 0;
-    display: block;
-}
-
-input, button {
+    background-color: #ffffff;
+    padding: 2rem;
+    margin: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
     width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 6px;
 }
 
-input[type="time"] {
+/* Inputit ja napit */
+input[type="time"],
+button {
+    margin: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
     font-size: 1rem;
 }
 
 button {
-    background: #007bff;
-    color: #fff;
-    border: none;
+    background-color: #a84d4d;
+    color: white;
     cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 button:hover {
-    background: #0056b3;
+    background-color: #218838;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
-    font-size: 1.4em;
-    margin-bottom: 10px;
-}
-
-p {
-    font-size: 1.1em;
-}
-
+/* Kalenterin ulkoasu */
 .calendar {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    margin: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px; /* Kalenterin maksimi leveys */
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin-top: 30px;
-    margin-left: auto; /* Keskittää kalenterin */
-    margin-right: auto; /* Keskittää kalenterin */
+    max-width: 400px;
 }
 
 .calendar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    border-bottom: 2px solid #eaeef3;
-}
-
-.calendar-header button {
-    background-color: transparent;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: #007bff;
-    transition: color 0.3s ease;
-}
-
-.calendar-header button:hover {
-    color: #0056b3;
-}
-
-#month-year {
-    font-size: 1.3em;
     font-weight: bold;
-    color: #333;
+    margin-bottom: 1rem;
 }
 
-.calendar-weekdays, .calendar-dates {
+.calendar-weekdays,
+.calendar-dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
     text-align: center;
-    gap: 5px;
-    padding: 10px;
-}
-
-.calendar-weekdays {
-    background-color: #eaeef3;
 }
 
 .calendar-weekdays div {
     font-weight: bold;
-    padding: 10px 0;
-    color: #555;
 }
 
 .calendar-dates div {
-    padding: 15px 0;
-    border-radius: 6px;
+    padding: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
+    transition: background-color 0.2s, box-shadow 0.2s;
 }
 
 .calendar-dates div:hover {
-    background-color: #f1f1f1;
-    transform: scale(1.1); /* Pieni zoom-efekti */
-}
-
-.blank {
-    background-color: transparent;
+    background-color: #e2e6ea;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .current-date {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 50%;
-    padding: 8px;
-    transition: background-color 0.3s;
+    background-color: #28a745;
+    color: white;
 }
 
-.current-date:hover {
-    background-color: #0056b3;
+/* Tyhjät solut */
+.blank {
+    visibility: hidden;
 }
