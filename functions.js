@@ -1,7 +1,11 @@
+// Haetaan pankkitunnit ja päivämäärät
 var savedHours = localStorage.getItem('bankHours') ? parseFloat(localStorage.getItem('bankHours')) : 0;
 var savedDayHours = JSON.parse(localStorage.getItem('savedDayHours')) || {};
-var selectedDateKey = null; // Käyttäjän valitsema päivämäärä
 
+// Valittu päivä
+var selectedDateKey = null;
+
+// Laskee ja tallentaa työajan
 function calculateHours() {
     if (!selectedDateKey) {
         alert("Select a day from the calendar first.");
@@ -32,7 +36,6 @@ function calculateHours() {
 
     document.getElementById('hours').textContent = workhours + " Hours and " + workminutes + " minutes ";
 
-    // Tallenna päivä
     savedDayHours[selectedDateKey] = true;
     localStorage.setItem('savedDayHours', JSON.stringify(savedDayHours));
 
@@ -40,6 +43,7 @@ function calculateHours() {
     renderCalendar(currentMonth, currentYear);
 }
 
+// Tuntien lisäys manuaalisesti
 function addManually() {
     if (!selectedDateKey) {
         alert("Select a day from the calendar first.");
@@ -61,6 +65,7 @@ function addManually() {
     }
 }
 
+// Pankkituntien käyttäminen
 function useBankHours() {
     var usedHours = parseFloat(prompt("How many hours you want to use from bank?"));
 
@@ -75,6 +80,7 @@ function useBankHours() {
     updateLocalStorageValues();
 }
 
+// Näytä pankkitunnit
 function showSavedHours() {
     alert("Hours saved in bank: " + savedHours.toFixed(2));
 }
@@ -98,6 +104,7 @@ const months = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
+// Renderöidään kalenteri
 function renderCalendar(month, year) {
     calendarDates.innerHTML = '';
     monthYear.textContent = `${months[month]} ${year}`;
@@ -106,21 +113,26 @@ function renderCalendar(month, year) {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const today = new Date();
 
+    // Tyhjöt laatikot kuun alkuun
     for (let i = 0; i < firstDay; i++) {
         const blank = document.createElement('div');
         blank.classList.add('blank');
         calendarDates.appendChild(blank);
     }
 
+    // Renderöi päivät
     for (let i = 1; i <= daysInMonth; i++) {
         const day = document.createElement('div');
         day.textContent = i;
 
         let dateKey = `${year}-${month}-${i}`;
+
+        // Näyttää päivät joille merkattu tunteja
         if (savedDayHours[dateKey]) {
             day.classList.add('logged-day');
         }
 
+        //Korostetaan nykyinen päivä
         if (
             i === today.getDate() &&
             month === today.getMonth() &&
@@ -139,6 +151,7 @@ function renderCalendar(month, year) {
     }
 }
 
+// Korostaa valitun päivän
 function highlightSelectedDay(selectedElement) {
     document.querySelectorAll('.calendar-dates div').forEach(el => {
         el.classList.remove('selected-day');
@@ -148,6 +161,7 @@ function highlightSelectedDay(selectedElement) {
 
 renderCalendar(currentMonth, currentYear);
 
+//Kuukauden vaihto
 prevMonthBtn.addEventListener('click', () => {
     currentMonth--;
     if (currentMonth < 0) {
