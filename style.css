@@ -98,3 +98,14 @@ button:hover {
 .blank {
     visibility: hidden;
 }
+
+.logged-day {
+    background-color: #90ee90;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+  
+  .selected-day {
+    outline: 2px solid #007bff;
+    border-radius: 50%;
+  }
