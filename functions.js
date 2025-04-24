@@ -34,10 +34,15 @@ function calculateHours() {
         localStorage.setItem('bankHours', savedHours.toFixed(2));
     }
 
-    document.getElementById('hours').textContent = workhours + " Hours and " + workminutes + " minutes ";
+    // Tallennetaan päivälle tunnit
+    if (!savedDayHours[selectedDateKey]) {
+        savedDayHours[selectedDateKey] = { hours: 0 };
+    }
 
-    savedDayHours[selectedDateKey] = true;
+    savedDayHours[selectedDateKey].hours += workhours + (workminutes / 60);
     localStorage.setItem('savedDayHours', JSON.stringify(savedDayHours));
+
+    document.getElementById('hours').textContent = workhours + " Hours and " + workminutes + " minutes ";
 
     updateLocalStorageValues();
     renderCalendar(currentMonth, currentYear);
@@ -57,7 +62,12 @@ function addManually() {
         localStorage.setItem('bankHours', savedHours.toFixed(2));
         alert("You added " + hoursToAdd + " hours to bank.");
 
-        savedDayHours[selectedDateKey] = true;
+        // Tallennetaan päivälle manuaaliset tunnit
+        if (!savedDayHours[selectedDateKey]) {
+            savedDayHours[selectedDateKey] = { hours: 0 };
+        }
+
+        savedDayHours[selectedDateKey].hours += hoursToAdd;
         localStorage.setItem('savedDayHours', JSON.stringify(savedDayHours));
 
         updateLocalStorageValues();
@@ -106,76 +116,102 @@ const months = [
 
 // Renderöidään kalenteri
 function renderCalendar(month, year) {
-    calendarDates.innerHTML = '';
-    monthYear.textContent = `${months[month]} ${year}`;
+  calendarDates.innerHTML = '';
+  monthYear.textContent = `${months[month]} ${year}`;
 
-    const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = new Date();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
 
-    // Tyhjöt laatikot kuun alkuun
-    for (let i = 0; i < firstDay; i++) {
-        const blank = document.createElement('div');
-        blank.classList.add('blank');
-        calendarDates.appendChild(blank);
-    }
+  // Tyhjät laatikot kuun alkuun
+  for (let i = 0; i < firstDay; i++) {
+      const blank = document.createElement('div');
+      blank.classList.add('blank');
+      calendarDates.appendChild(blank);
+  }
 
-    // Renderöi päivät
-    for (let i = 1; i <= daysInMonth; i++) {
-        const day = document.createElement('div');
-        day.textContent = i;
+  // Renderöi päivät
+  for (let i = 1; i <= daysInMonth; i++) {
+      const day = document.createElement('div');
+      const dateNumber = document.createElement('span');
+      dateNumber.classList.add('day-number');
+      dateNumber.textContent = i;
+      day.appendChild(dateNumber);
 
-        let dateKey = `${year}-${month}-${i}`;
+      let dateKey = `${year}-${month}-${i}`;
 
-        // Näyttää päivät joille merkattu tunteja
-        if (savedDayHours[dateKey]) {
-            day.classList.add('logged-day');
-        }
+      // Näyttää päivät, joille on tallennettu tunteja
+      if (savedDayHours[dateKey]) {
+          day.classList.add('logged-day');
+      }
 
-        //Korostetaan nykyinen päivä
-        if (
-            i === today.getDate() &&
-            month === today.getMonth() &&
-            year === today.getFullYear()
-        ) {
-            day.classList.add('current-date');
-        }
+      // Korostetaan nykyinen päivä
+      if (
+          i === today.getDate() &&
+          month === today.getMonth() &&
+          year === today.getFullYear()
+      ) {
+          day.classList.add('current-date');
+      }
 
-        // Klikattava päivä
-        day.addEventListener('click', () => {
-            selectedDateKey = dateKey;
-            highlightSelectedDay(day);
-        });
+      // Klikattava päivä
+      day.addEventListener('click', () => {
+          selectedDateKey = dateKey;
+          highlightSelectedDay(day);
+          showLoggedHours(day, dateKey);
+      });
 
-        calendarDates.appendChild(day);
-    }
+      // Näyttää tunnit, kun hiiri on päivän päällä
+      day.addEventListener('mouseenter', () => {
+          if (savedDayHours[dateKey]) {
+              showLoggedHours(day, dateKey);
+          }
+      });
+
+      calendarDates.appendChild(day);
+  }
+}
+
+// Näyttää päivälle tallennetut tunnit
+function showLoggedHours(day, dateKey) {
+  const previousLabel = day.querySelector('.hours-label');
+  if (previousLabel) {
+      previousLabel.remove();
+  }
+
+  if (savedDayHours[dateKey] && savedDayHours[dateKey].hours > 0) {
+      let hours = savedDayHours[dateKey].hours;
+      const label = document.createElement('span');
+      label.classList.add('hours-label');
+      label.textContent = `${hours.toFixed(1)} hrs`;
+      day.appendChild(label);
+  }
 }
 
 // Korostaa valitun päivän
-function highlightSelectedDay(selectedElement) {
-    document.querySelectorAll('.calendar-dates div').forEach(el => {
-        el.classList.remove('selected-day');
-    });
-    selectedElement.classList.add('selected-day');
+function highlightSelectedDay(day) {
+  const allDays = document.querySelectorAll('.calendar-dates div');
+  allDays.forEach(d => d.classList.remove('selected-day'));
+  day.classList.add('selected-day');
 }
 
 renderCalendar(currentMonth, currentYear);
 
-//Kuukauden vaihto
+//kuukauden vaihto
 prevMonthBtn.addEventListener('click', () => {
-    currentMonth--;
-    if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-    }
-    renderCalendar(currentMonth, currentYear);
+  currentMonth -= 1;
+  if (currentMonth < 0) {
+    currentMonth = 11;
+    currentYear -= 1;
+  }
+  renderCalendar(currentMonth, currentYear);
 });
 
 nextMonthBtn.addEventListener('click', () => {
-    currentMonth++;
-    if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-    }
-    renderCalendar(currentMonth, currentYear);
+  currentMonth += 1;
+  if (currentMonth > 11) {
+    currentMonth = 0;
+    currentYear += 1;
+  }
+  renderCalendar(currentMonth, currentYear);
 });
