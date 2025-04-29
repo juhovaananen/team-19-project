@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Work Hours Tracker</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="layout">
+    <!-- Sivupalkki -->
+    <nav class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="calendar.html">Hour Tracker</a></li>
+      </ul>
+    </nav>
+
+    <!-- Pääsisältö -->
+    <main class="main-content">
+      <div class="container">
+        <label for="startingtime">Starting time:</label>
+        <input type="time" id="startingtime"> <br>
+        <label for="endingtime">Ending time:</label>
+        <input type="time" id="endingtime"> <br>
+        <button onclick="calculateHours()">Calculate hours</button> <br>
+        <button onclick="addManually()">Add hours manually</button>
+
+        <h2>Hours:</h2>
+        <p id="hours"></p>
+
+        <h2>Hours saved in bank:</h2>
+        <p id="bankHours"></p>
+
+        <button onclick="useBankHours()">Use hours from bank</button>
+        <button onclick="showSavedHours()">Show hours saved in bank</button>
+      </div>
+
+      <div class="calendar">
+        <div class="calendar-header">
+          <button id="prev-month">‹</button>
+          <div id="month-year"></div>
+          <button id="next-month">›</button>
+        </div>
+        <div class="calendar-body">
+          <div class="calendar-weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+          </div>
+          <div class="calendar-dates"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="functions.js"></script>
+</body>
+</html>
