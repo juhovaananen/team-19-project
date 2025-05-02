@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Uploads - Work Hour Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="calendar.html">Hour Tracker</a></li>
+        <li><a href="uploads.html">File Uploads</a></li>
+      </ul>
+    </nav>
+
+    <main class="main-content">
+      <div class="container">
+        <h1>Upload Work-Related Files</h1>
+        <form id="uploadForm">
+          <label for="uploadDate">Date:</label>
+          <input type="date" id="uploadDate" name="uploadDate" required><br>
+
+          <label for="description">Description:</label><br>
+          <textarea id="description" name="description" rows="3" cols="40" required></textarea><br>
+
+          <label for="file">Select file:</label>
+          <input type="file" id="file" name="file" required><br>
+
+          <button type="submit">Upload</button>
+        </form>
+
+        <h2>Uploaded Files</h2>
+        <ul id="fileList"></ul>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const uploadForm = document.getElementById('uploadForm');
+    const fileList = document.getElementById('fileList');
+
+    // Lataa tallennetut tiedot localStoragesta
+    const savedFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
+    savedFiles.forEach(displayFile);
+
+    uploadForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const date = document.getElementById('uploadDate').value;
+      const desc = document.getElementById('description').value;
+      const file = document.getElementById('file').files[0];
+
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64 = reader.result;
+
+        const fileData = {
+          name: file.name,
+          type: file.type,
+          date: date,
+          description: desc,
+          data: base64
+        };
+
+        savedFiles.push(fileData);
+        localStorage.setItem('uploadedFiles', JSON.stringify(savedFiles));
+        displayFile(fileData);
+      };
+
+      reader.readAsDataURL(file); // luo base64-esityksen
+      uploadForm.reset();
+    });
+
+    function displayFile(fileData) {
+      const listItem = document.createElement('li');
+      listItem.innerHTML = `
+        <strong>${fileData.date}</strong>: ${fileData.description} - 
+        <a href="${fileData.data}" target="_blank">${fileData.name}</a> 
+        (<a href="${fileData.data}" download="${fileData.name}">Download</a>)
+      `;
+      fileList.appendChild(listItem);
+    }
+  </script>
+</body>
+</html>
